@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	
+	<title>Google Maps: Zoom-to-Fit Markers (v3)</title>
+	<script src="http://maps.googleapis.com/maps/api/js?v=3&sensor=false"></script>
+</head>
+<body>
+	<div id="mapdiv" style="height: 400px;"></div>
+	<script>
+		/*
+		 * Google Maps: Zoom-to-Fit Markers (v3)
+		 * http://salman-w.blogspot.com/2011/03/zoom-to-fit-all-markers-on-google-map.html
+		 */
+		function map_initialize() {
+			var ntr_sujala_unit = [
+			
+				
+				
+				{
+					name: "Narayanganj Osmani Stadium, Bangladesh",
+					latlng: new google.maps.LatLng(23.650161, 90.488811),
+					image :'http://png.findicons.com/files/icons/1689/splashy/16/marker_squared_blue.png'
+				},
+			
+			
+			
+				
+				{
+					name: "Sher-e-Bangla Cricket Stadium, Bangladesh",
+					latlng: new google.maps.LatLng(23.806917, 90.363583),
+					image :'http://png.findicons.com/files/icons/1689/splashy/16/marker_squared_blue.png'
+				},
+				
+		
+		
+				{
+					name: "Zohur Ahmed Chowdhury Stadium, Bangladesh",
+					latlng: new google.maps.LatLng(22.355803, 91.767919),
+					image:'http://maps.google.com/mapfiles/kml/shapes/dollar.png'
+				}
+			];
+			var map = new google.maps.Map(document.getElementById("mapdiv"), {
+				center: new google.maps.LatLng(0, 0),
+				zoom: 0,
+				mapTypeId: google.maps.MapTypeId.ROADMAP
+			});
+
+			   var infowindow =  new google.maps.InfoWindow({
+        content: ""
+    });
+
+			for (var i = 0; i < ntr_sujala_unit.length; i++) {
+			 var marker = new google.maps.Marker({
+					position: ntr_sujala_unit[i].latlng,
+					map: map,
+				    icon: ntr_sujala_unit[i].image
+				
+		
+				});
+				 bindInfoWindow(marker, map, infowindow, ntr_sujala_unit[i].name);
+
+			}
+
+function bindInfoWindow(marker, map, infowindow, strDescription) {
+    google.maps.event.addListener(marker, 'click', function() {
+    	  var contentString = '<div id="content">'+
+      '<div id="siteNotice">'+
+      '</div>'+
+      '<h1 id="firstHeading" class="firstHeading">'+strDescription+'</h1>'+
+      '<div id="bodyContent">'+
+      '<p><b>'+strDescription+'</b>, also referred to as <b>Ayers Rock</b>, is a large ' +
+      'sandstone rock formation in the southern part of the '+
+      'Northern Territory, central Australia. It lies 335&#160;km (208&#160;mi) '+
+      'south west of the nearest large town, Alice Springs; 450&#160;km '+
+      '(280&#160;mi) by road. Kata Tjuta and Uluru are the two major '+
+      'features of the Uluru - Kata Tjuta National Park. Uluru is '+
+      'sacred to the Pitjantjatjara and Yankunytjatjara, the '+
+      'Aboriginal people of the area. It has many springs, waterholes, '+
+      'rock caves and ancient paintings. Uluru is listed as a World '+
+      'Heritage Site.</p>'+
+      '<p>Attribution: Uluru, <a href="http://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">'+
+      'http://en.wikipedia.org/w/index.php?title=Uluru</a> '+
+      '(last visited June 22, 2009).</p>'+
+      '</div>'+
+      '</div>';
+        infowindow.setContent(contentString);
+  
+        infowindow.open(map, marker);
+  
+    });
+}
+
+
+			var latlngbounds = new google.maps.LatLngBounds();
+			for (var i = 0; i < ntr_sujala_unit.length; i++) {
+				latlngbounds.extend(ntr_sujala_unit[i].latlng);
+			}
+			map.fitBounds(latlngbounds);
+			
+		}
+		google.maps.event.addDomListener(window, 'load', map_initialize);
+	</script>
+</body>
+</html>
